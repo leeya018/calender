@@ -4,7 +4,6 @@ import {contextCalander} from "./Calender"
 import buildDays from "./buildDays"
 
 import moment from 'moment'
-const DAYS = [...Array(30).keys()];
 
 const WeekDays = [
   "Sunday",
@@ -33,7 +32,9 @@ const YEARS =[
 
 export default function Board({
   date,
-  updateDate 
+  updateDate ,
+  setSelect,
+  select
 }) {
 
     const [month, setMonth] = useState(date.month())
@@ -49,7 +50,6 @@ export default function Board({
 
    useEffect(() => { 
     const newDate =  date.clone().month(month)
-    // alert(newDate)
       updateDate(newDate)
     }, [month, year])
 
@@ -82,6 +82,8 @@ export default function Board({
     return daysOfMonth.map((day) => <Day 
       day={day}
       updateDate={updateDate}
+      setSelect={setSelect}
+      select={select}
     />);
   }
 
