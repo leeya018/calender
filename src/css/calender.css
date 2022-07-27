@@ -1,0 +1,40 @@
+.calender {
+    display: grid;
+    background-color: white;
+    width: 80vw;
+    height: 70vh;
+    grid-template-areas: 
+    'header header header'
+    'nav board1 board2'
+    'nav board1 board2'
+    'nav board1 board2';
+    grid-template-columns: auto 1fr 1fr;
+    grid-template-rows: auto 1fr;
+
+}
+
+.header{
+    grid-area: header;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+
+}
+.nav{
+    grid-area: nav;
+}
+.board1{
+    grid-area: board1;
+}
+.board2{
+    grid-area: board2;
+}
+.grid-item{
+    border:1px solid black;
+}
+.btn {
+    border: none;
+    background-color: transparent;
+    font-size: 1.3rem;
+}
