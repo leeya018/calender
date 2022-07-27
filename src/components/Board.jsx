@@ -31,64 +31,65 @@ const YEARS =[
     2020,
 ]
 
-export default function Board({startDate}) {
+export default function Board({
+  date,
+  updateDate 
+}) {
 
-    const [month, setMonth] = useState(startDate.month())
-    const [year, setYear] = useState(startDate.year())
+    const [month, setMonth] = useState(date.month())
+    const [year, setYear] = useState(date.year())
     const [daysOfMonth, setDaysOfMonth] = useState([])
-    
 
     useEffect(() => {
-      let daysArr = buildDays(startDate)
+      let daysArr = buildDays(date)
       console.log(daysArr)
       setDaysOfMonth(daysArr)
    }, [])
 
 
+   useEffect(() => { 
+    const newDate =  date.clone().month(month)
+    alert(newDate)
+      updateDate(newDate)
+    }, [month, year])
+
+
    useEffect(() => {
-    let daysArr = buildDays(startDate)
+    let daysArr = buildDays(date)
     setDaysOfMonth(daysArr)
  }, [month, year])
 
 
 
     useEffect(() => { 
-        let startDateClone = startDate.clone().month(month)
-        updateStartDate(startDateClone)
+        let dateClone = date.clone().month(month)
+        updateDate(dateClone)
      }, [month])
 
      
     useEffect(() => { 
-      let startDateClone = startDate.clone().year(year)
-      updateStartDate(startDateClone)
+      let dateClone = date.clone().year(year)
+      updateDate(dateClone)
    }, [year])
 
-//    useEffect(() => {
-//     let daysArr = buildDays(startDate)
-//     setDaysOfMonth(daysArr)
-//  }, [year, month])
 
-    const {
-        updateStartDate
-    } =  useContext(contextCalander)
 
   function spreadWeekDays() {
     return WeekDays.map((wd) => <span>{wd.substring(0, 3)}</span>);
   }
 
   function spreadDays() {
-    return daysOfMonth.map((day) => <Day dayNum={day.format('DD')}/>);
+    return daysOfMonth.map((day) => <Day 
+      dayNum={day.format('DD')}
+      updateDate={updateDate}
+    />);
   }
 
-
-  // function getMonth(){
-  //   return MONTHS[startDate.getMonth()]
-  // }
   return (
-    <div className="board board1 grid-item">
+    <>
       <div className="nav-board">
         <span>from: </span>
-        {startDate.format("DD-MM-YYYY")}
+        {date.format("DD-MM-YYYY")}
      
         <select 
             value={month}
@@ -112,6 +113,6 @@ export default function Board({startDate}) {
         {spreadWeekDays()}
         {spreadDays()}
       </div>
-    </div>
+    </>
   );
 }
