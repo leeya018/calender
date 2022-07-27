@@ -1,8 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
 import Day from "./Day";
 import {contextCalander} from "./Calender"
+import buildDays from "./buildDays"
 
+import moment from 'moment'
 const DAYS = [...Array(30).keys()];
+
 const WeekDays = [
   "Sunday",
   "Monday",
@@ -30,15 +33,40 @@ const YEARS =[
 
 export default function Board({startDate}) {
 
-    const [month, setMonth] = useState(0)
-    const [year, setYear] = useState(2022)
+    const [month, setMonth] = useState(startDate.month())
+    const [year, setYear] = useState(startDate.year())
+    const [daysOfMonth, setDaysOfMonth] = useState([])
+    
+
+    useEffect(() => {
+      let daysArr = buildDays(startDate)
+      console.log(daysArr)
+      setDaysOfMonth(daysArr)
+   }, [])
+
+
+   useEffect(() => {
+    let daysArr = buildDays(startDate)
+    setDaysOfMonth(daysArr)
+ }, [month, year])
+
 
 
     useEffect(() => { 
-        let startDate_copy = new Date(startDate)
-        startDate_copy.setMonth(month)
-        updateStartDate(startDate_copy)
+        let startDateClone = startDate.clone().month(month)
+        updateStartDate(startDateClone)
      }, [month])
+
+     
+    useEffect(() => { 
+      let startDateClone = startDate.clone().year(year)
+      updateStartDate(startDateClone)
+   }, [year])
+
+//    useEffect(() => {
+//     let daysArr = buildDays(startDate)
+//     setDaysOfMonth(daysArr)
+//  }, [year, month])
 
     const {
         updateStartDate
@@ -49,17 +77,19 @@ export default function Board({startDate}) {
   }
 
   function spreadDays() {
-    return DAYS.map((day) => <Day dayNum={day}/>);
+    return daysOfMonth.map((day) => <Day dayNum={day.format('DD')}/>);
   }
 
 
-  function getMonth(){
-    return MONTHS[startDate.getMonth()]
-  }
+  // function getMonth(){
+  //   return MONTHS[startDate.getMonth()]
+  // }
   return (
     <div className="board board1 grid-item">
       <div className="nav-board">
         <span>from: </span>
+        {startDate.format("DD-MM-YYYY")}
+     
         <select 
             value={month}
             onChange={e => setMonth(e.target.value)}
