@@ -49,7 +49,7 @@ export default function Board({
 
    useEffect(() => { 
     const newDate =  date.clone().month(month)
-    alert(newDate)
+    // alert(newDate)
       updateDate(newDate)
     }, [month, year])
 
@@ -80,7 +80,7 @@ export default function Board({
 
   function spreadDays() {
     return daysOfMonth.map((day) => <Day 
-      dayNum={day.format('DD')}
+      day={day}
       updateDate={updateDate}
     />);
   }

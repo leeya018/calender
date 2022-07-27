@@ -1,19 +1,38 @@
+import { relativeTimeRounding } from 'moment'
 import React, { useContext } from 'react'
 import {contextCalander} from './Calender'
 
 export default function Day({
-  dayNum,
+  day,
   updateDate}) {
 
   const {
      startDate
   } = useContext(contextCalander)
 
+  function beforeToday(){
+    return day.isBefore(new Date(), "day")
+  }
+
+  function isToday(){
+    return day.isSame(new Date() , "day")
+  }
+
+  function isSelected(){
+    return day.isSame(startDate, "day")
+  }
+
+  function getStyles(){
+    if(beforeToday()) return "before"
+    if(isToday()) return "today"
+    if(isSelected()) return "selected"
+    return ""
+  }
+
   function changeDayOfDate(){
-    const newDate = startDate.clone().date(dayNum)
-    updateDate(newDate)
+    updateDate(day)
   }
   return (
-    <span className='day' onClick={changeDayOfDate}>{dayNum}</span>
+    <span className={getStyles()} onClick={changeDayOfDate}>{day.format('DD')}</span>
   )
 }

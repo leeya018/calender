@@ -18,9 +18,14 @@ export default function Calender() {
   useEffect(() => {  
     if(startDate.isAfter(endDate)){
       setEndDate(startDate.clone().add(1, 'month'))
-
     }
   }, [startDate])
+
+  useEffect(() => {  
+    if(startDate.isAfter(endDate)){
+      setStartDate(endDate.clone().subtract(1, 'month'))
+    }
+  }, [endDate])
 
   return (
     <contextCalander.Provider value={contextValue}>
